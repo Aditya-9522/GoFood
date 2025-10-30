@@ -4,6 +4,7 @@ import '../node_modules/bootstrap/dist/js/bootstrap.bundle';
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js";
 import Home from './screens/Home';
 import MyOrder from './screens/MyOrder';
+// import SelectRestaurant from './screens/SelectRestaurant';
 import {
   BrowserRouter as Router,
   Routes,
@@ -25,6 +26,7 @@ function App() {
             <Route exact path="/login" element={<Login />} />
             <Route exact path="/signup" element={<Signup />} />
             <Route exact path="/myOrder" element={<MyOrder />} />
+            {/* <Route path="/select-restaurant" element={<SelectRestaurant />} /> */}
           </Routes>
         </div>
       </Router>
