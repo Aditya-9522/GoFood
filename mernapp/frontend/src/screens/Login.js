@@ -8,7 +8,7 @@ export default function Login() {
 
   // ✅ Automatically switch between local and Render backend
   const API_URL =
-    process.env.REACT_APP_API_URL || "https://gofood-9-nhm6.onrender.com";
+    process.env.REACT_APP_API_URL || "https://gofood-s274.onrender.com";
 
   const handleSubmit = async (e) => {
     e.preventDefault();

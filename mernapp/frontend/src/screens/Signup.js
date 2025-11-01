@@ -25,7 +25,7 @@ export default function Signup() {
       const long = res.coords.longitude;
 
       // ✅ Updated API URL to Render backend
-      const response = await fetch("https://gofood-9-nhm6.onrender.com/api/auth/getlocation", {
+      const response = await fetch("https://gofood-s274.onrender.com/api/auth/getlocation", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -45,7 +45,7 @@ export default function Signup() {
     e.preventDefault();
 
     // ✅ Updated API URL to Render backend
-    const response = await fetch("https://gofood-9-nhm6.onrender.com/api/createuser", {
+    const response = await fetch("https://gofood-s274.onrender.com/api/createuser", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

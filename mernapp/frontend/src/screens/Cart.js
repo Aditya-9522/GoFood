@@ -25,7 +25,7 @@ export default function Cart() {
     console.log("Checkout Payload:", payload);
 
     try {
-      const response = await fetch("http://localhost:5000/api/orderData", {
+      const response = await fetch("https://gofood-s274.onrender.com/api/orderData", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
