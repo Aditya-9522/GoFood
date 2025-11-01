@@ -6,6 +6,10 @@ export default function Login() {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const navigate = useNavigate();
 
+  // ✅ Automatically switch between local and Render backend
+  const API_URL =
+    process.env.REACT_APP_API_URL || "https://gofood-9-nhm6.onrender.com";
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -15,7 +19,7 @@ export default function Login() {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/loginuser", {
+      const response = await fetch(`${API_URL}/api/loginuser`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
