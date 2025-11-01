@@ -6,14 +6,16 @@ export default function Login() {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const navigate = useNavigate();
 
-  // ✅ Automatically switch between local and Render backend
-  const API_URL =
-    process.env.REACT_APP_API_URL || "https://gofood-s274.onrender.com";
+  // ✅ Environment-based backend URL
+  const API_URL = process.env.REACT_APP_API_URL || "https://gofood-s274.onrender.com";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!credentials.email || !credentials.password) {
+    const email = credentials.email.trim();
+    const password = credentials.password.trim();
+
+    if (!email || !password) {
       alert("Please enter both email and password");
       return;
     }
@@ -24,25 +26,22 @@ export default function Login() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          email: credentials.email,
-          password: credentials.password
-        })
+        body: JSON.stringify({ email, password })
       });
 
       const json = await response.json();
       console.log("Login response:", json);
 
       if (json.success) {
-        localStorage.setItem('userEmail', credentials.email);
+        localStorage.setItem('userEmail', email);
         localStorage.setItem('authToken', json.authToken);
         navigate("/");
       } else {
-        alert("Invalid credentials. Please try again.");
+        alert(json.error || "Invalid credentials. Please try again.");
       }
     } catch (error) {
-      console.error("Login fetch failed:", error);
-      alert("Unable to connect to server. Please make sure the backend is running.");
+      console.error("❌ Login fetch failed:", error);
+      alert("Unable to connect to the server. Please check your network or backend.");
     }
   };
 
@@ -51,14 +50,20 @@ export default function Login() {
   };
 
   return (
-    <div style={{
-      backgroundImage: 'url("https://images.pexels.com/photos/326278/pexels-photo-326278.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")',
-      height: '100vh',
-      backgroundSize: 'cover'
-    }}>
+    <div
+      style={{
+        backgroundImage:
+          'url("https://images.pexels.com/photos/326278/pexels-photo-326278.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")',
+        height: '100vh',
+        backgroundSize: 'cover'
+      }}
+    >
       <Navbar />
       <div className='container'>
-        <form className='w-50 m-auto mt-5 border bg-dark border-success rounded' onSubmit={handleSubmit}>
+        <form
+          className='w-50 m-auto mt-5 border bg-dark border-success rounded'
+          onSubmit={handleSubmit}
+        >
           <div className="m-3">
             <label htmlFor="email" className="form-label">Email address</label>
             <input
@@ -70,8 +75,11 @@ export default function Login() {
               aria-describedby="emailHelp"
               required
             />
-            <div id="emailHelp" className="form-text">We'll never share your email with anyone.</div>
+            <div id="emailHelp" className="form-text text-light">
+              We'll never share your email with anyone else.
+            </div>
           </div>
+
           <div className="m-3">
             <label htmlFor="password" className="form-label">Password</label>
             <input
@@ -83,7 +91,8 @@ export default function Login() {
               required
             />
           </div>
-          <button type="submit" className="m-3 btn btn-success">Submit</button>
+
+          <button type="submit" className="m-3 btn btn-success">Login</button>
           <Link to="/signup" className="m-3 mx-1 btn btn-danger">New User</Link>
         </form>
       </div>

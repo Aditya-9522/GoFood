@@ -10,7 +10,7 @@ export default function Home() {
 
   const loadData = async () => {
     try {
-      const response = await fetch("https://gofood-s274.onrender.com/api/foodData", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/foodData`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -22,7 +22,7 @@ export default function Home() {
       setFoodItem(Array.isArray(json[0]) ? json[0] : []);
       setFoodCat(Array.isArray(json[1]) ? json[1] : []);
     } catch (error) {
-      console.error("Failed to load food data:", error);
+      console.error("❌ Failed to load food data:", error);
       setFoodItem([]);
       setFoodCat([]);
     }
