@@ -28,13 +28,13 @@ app.use('/api', require('./Routes/LoginUser'));
 app.use('/api', require('./Routes/DisplayData'));
 app.use('/api', require('./Routes/OrderData'));
 
-// ✅ Serve frontend build (React)
-app.use(express.static(path.join(__dirname, '../frontend/build')));
+// // ✅ Serve frontend build (React)
+// app.use(express.static(path.join(__dirname, '../frontend/build')));
 
-// ✅ Fix: Express v5+ wildcard route syntax (use RegExp instead of "*")
-app.get(/.*/, (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
-});
+// // ✅ Fix: Express v5+ wildcard route syntax (use RegExp instead of "*")
+// app.get(/.*/, (req, res) => {
+//   res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
+// });
 
 // ✅ Start server
 app.listen(port, () => {
