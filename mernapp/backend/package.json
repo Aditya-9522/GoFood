@@ -1,13 +1,13 @@
 {
-  "name": "backend",
+  "name": "gofood-backend",
   "version": "1.0.0",
-  "description": "",
-  "license": "ISC",
+  "description": "Backend server for GoFood MERN app",
   "author": "Aditya",
-  "type": "commonjs",
+  "license": "ISC",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
@@ -16,7 +16,9 @@
     "express": "^5.1.0",
     "express-validator": "^7.2.1",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.19.1",
+    "mongoose": "^8.19.1"
+  },
+  "devDependencies": {
     "nodemon": "^3.1.10"
   }
 }
