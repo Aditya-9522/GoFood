@@ -7,35 +7,35 @@ const bcrypt = require('bcryptjs');
 require('dotenv').config();
 const key = process.env.JWT_SECRET;
 
-router.post('/createuser', [
+router.post('/loginuser', [
   body('email').isEmail(),
-  body('name').isLength({ min: 5 }),
-  body('password').isLength({ min: 5 }),
-  body('location').notEmpty()
+  body('password', 'Incorrect Password').isLength({ min: 5 })
 ], async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ success: false, errors: errors.array() });
   }
 
-  try {
-    const salt = await bcrypt.genSalt(10);
-    const secPassword = await bcrypt.hash(req.body.password, salt);
+  const { email, password } = req.body;
 
-    const user = await User.create({
-      name: req.body.name,
-      password: secPassword,
-      email: req.body.email,
-      location: req.body.location
-    });
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ success: false, error: "Invalid credentials" });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ success: false, error: "Invalid credentials" });
+    }
 
     const data = { user: { id: user.id } };
     const authToken = jwt.sign(data, key);
 
     return res.json({ success: true, authToken });
   } catch (error) {
-    console.error("Signup error:", error.message);
-    return res.status(500).json({ success: false, error: "Signup failed" });
+    console.error("Login error:", error.message);
+    return res.status(500).json({ success: false, error: "Login failed" });
   }
 });
 

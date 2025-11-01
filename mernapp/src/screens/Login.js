@@ -9,6 +9,11 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!credentials.email || !credentials.password) {
+      alert("Please enter both email and password");
+      return;
+    }
+
     try {
       const response = await fetch("http://localhost:5000/api/loginuser", {
         method: 'POST',
@@ -29,11 +34,11 @@ export default function Login() {
         localStorage.setItem('authToken', json.authToken);
         navigate("/");
       } else {
-        alert("Enter valid credentials");
+        alert("Invalid credentials. Please try again.");
       }
     } catch (error) {
       console.error("Login fetch failed:", error);
-      alert("Unable to connect to server. Please try again later.");
+      alert("Unable to connect to server. Please make sure the backend is running.");
     }
   };
 

@@ -4,23 +4,29 @@ const mongoURI = "mongodb+srv://GoFood:Aditya_9522@cluster0.7sb2pd2.mongodb.net/
 
 const mongoDB = async () => {
   try {
-    await mongoose.connect(mongoURI, { useNewUrlParser: true });
-    console.log("Connected to MongoDB");
+    await mongoose.connect(mongoURI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
 
-    const fetched_data = await mongoose.connection.db.collection("food_items");
-    const data = await fetched_data.find({}).toArray();
+    console.log("Connected to MongoDB Atlas");
 
-    const foodCategory = await mongoose.connection.db.collection("foodCategory");
-    const catData = await foodCategory.find({}).toArray();
+    const foodItemsCollection = mongoose.connection.db.collection("food_items");
+    const foodItemsData = await foodItemsCollection.find({}).toArray();
 
-    if (data && catData) {
-      global.food_items = data;
-      global.foodCategory = catData;
+    const foodCategoryCollection = mongoose.connection.db.collection("foodCategory");
+    const foodCategoryData = await foodCategoryCollection.find({}).toArray();
+
+    if (foodItemsData.length && foodCategoryData.length) {
+      global.food_items = foodItemsData;
+      global.foodCategory = foodCategoryData;
+      console.log("Loaded food_items and foodCategory into global variables");
     } else {
-      console.log("No data found in collections.");
+      console.warn("⚠️ No data found in food_items or foodCategory collections");
     }
+
   } catch (err) {
-    console.log("---", err);
+    console.error("❌ MongoDB connection error:", err.message);
   }
 };
 
